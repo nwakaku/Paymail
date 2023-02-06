@@ -5,7 +5,7 @@ import {main} from "./Web3storageAPi/storageapi"
 
 
 const ComposeMail = () => {
-   const {connectedAccount,ComposeMailMain,SentEmails}=useContext(Web3ApiContext);
+   const {connectedAccount,ComposeMailMain,SentEmails, done}=useContext(Web3ApiContext);
    const [success,Setsuccess]=useState(false);
    
     const[formData,setFormData]=useState(
@@ -71,9 +71,14 @@ try{
                     </div>
                   </div>
 
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary modal-btn-left" data-bs-dismiss="modal">Discard</button>
+                  <div>
+                    {done ? 
+                    <div>{done}</div> : 
+                    <div className='modal-footer'>
+                      <button type="button" className="btn btn-secondary modal-btn-left" data-bs-dismiss="modal">Discard</button>
                     <button type="submit" className="btn btn-primary modal-btn-right" data-bs-dismiss={success?"modal":""} >Send</button>
+                      </div>}
+                    
                   </div>
                   </form>
                 </div>

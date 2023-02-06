@@ -27,7 +27,8 @@ const Web3ApiProvider = ({ children }) => {
 
   const [AllMails, setAllMails] = useState([]);
   const[SentEmails,setSentEmails]=useState([]);
-  const[SpamEmailAdress,setSpamEmailAdress]=useState([]);
+  const[SpamEmailAdress, setSpamEmailAdress]=useState([]);
+  const [done, setDone] = useState("")
 
   const ComposeMailMain = async (receiverAddress, subject, body, ipfsHash,Filename) => {
     try{
@@ -50,6 +51,7 @@ const Web3ApiProvider = ({ children }) => {
         Filename
       );
       await TransactionHash.wait();
+      setDone("Done")
       await console.log("DONE")
 
     } catch(e) {
@@ -200,6 +202,7 @@ const Web3ApiProvider = ({ children }) => {
         RemoveFromSpam,
         SpamEmailAdress,
         setSpamEmailAdress,
+        done,
         GetSentItems,
         Disconnect
       }}

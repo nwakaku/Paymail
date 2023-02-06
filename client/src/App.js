@@ -8,7 +8,7 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { filecoinHyperspace } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-
+import { HuddleIframe } from "@huddle01/huddle01-iframe";
 
 const { chains, provider } = configureChains(
   [filecoinHyperspace],
@@ -42,7 +42,6 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/mail/*" element={<Mail />} exact />
-              
             </Routes>
           </Router>
         </RainbowKitProvider>

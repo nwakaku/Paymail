@@ -58,9 +58,9 @@ export default function Mail() {
     <>
       <div className="mail">
         <div style={{ height: "100vh", background: "white" }} className="row">
-          <div className="col-2 sidebar " style={{ background: "7E7E7E" }}>
+          <div className="col-2 sidebar ">
             <h4 className="logo">
-              <img src={logo} className="img" />
+              <img src={logo} alt="logo" className="img" />
               ail3{" "}
             </h4>
 
@@ -73,31 +73,31 @@ export default function Mail() {
               {/* <LogoutButton /> */}
               <Link to="" style={{ textDecoration: "none" }}>
                 <div className="links  ">
-                  <GoInbox />
+                  <GoInbox />{" "}
                   <span className="mx-auto">Inbox</span>
                 </div>
               </Link>
               <Link to="sentEmails" style={{ textDecoration: "none" }}>
                 <div className="links  ">
-                  <MdSend />
+                  <MdSend />{" "}
                   <span className="mx-auto">Sent</span>
                 </div>
               </Link>
               <Link to="SpamSection" style={{ textDecoration: "none" }}>
                 <div className="links  ">
-                  <FaTag />
+                  <FaTag />{" "}
                   <span className="mx-auto">Spam</span>
                 </div>
               </Link>
               <Link to="SpamSection" style={{ textDecoration: "none" }}>
                 <div className="links  ">
-                  <MdDrafts />
+                  <MdDrafts />{" "}
                   <span className="mx-auto">Drafts</span>
                 </div>
               </Link>
               <Link to="SpamSection" style={{ textDecoration: "none" }}>
                 <div className="links  ">
-                  <MdStarRate />
+                  <MdStarRate />{" "}
                   <span className="mx-auto">Starred</span>
                 </div>
               </Link>
@@ -106,7 +106,7 @@ export default function Mail() {
                 className="links"
                
               >
-                <FaVideo />
+                <FaVideo />{" "}
                 <span className="mx-auto">Huddle01</span>
               </div>
               </Link>
