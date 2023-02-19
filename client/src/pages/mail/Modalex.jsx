@@ -11,10 +11,11 @@ import { convertTodate,convertTotime } from './Utils/URLencoding/Timestamp_conve
 import { download } from './Utils/URLencoding/download';
 import {AiOutlineRollback} from "react-icons/ai"
 
-const Modalex = ({receiver,subject, body, timestamp, ipfsHash,Filename,sender,i}) => {
+const Modalex = ({receiver,subject, body, timestamp, ipfsHash, Filename, sender ,i , amount }) => {
     const location=useLocation();
     console.log(location);
-  const { connectedAccount,  ReportSpam, RemoveFromSpam,GetSentItems} = useContext(Web3ApiContext);
+  const { connectedAccount, ReportSpam, RemoveFromSpam, GetSentItems, withdraw, balance, getEscrowBalance} = useContext(Web3ApiContext);
+  console.log(balance);
     if (!connectedAccount) {
       return <div className="loading">
       <SpinnerDiamond size={73} thickness={143} speed={80} color="rgba(113, 57, 172, 1)" secondaryColor="rgba(57, 128, 172, 0.92)" />
@@ -45,10 +46,11 @@ const Modalex = ({receiver,subject, body, timestamp, ipfsHash,Filename,sender,i}
         ReportSpam(sender)
         }} /></h3>}
         {location.pathname!=='/mail/sentEmails' ?<h6 className="card-text"><strong>From :</strong> {sender}</h6>:<></>}
-        {   location.pathname==='/mail/sentEmails' ?  <h6 className="card-text"><strong>To </strong>: {receiver}</h6>:<></>}
+        {   location.pathname==='/mail/sentEmails' ?  <h6 className="card-text"><strong>To: </strong>: {receiver}</h6>:<></>}
     
         <p className="card-text">{body}</p>
-        
+        { location.pathname!=='/mail/sentEmails' ? <p className="card-text mt-3"><strong>PayCheck : </strong>{amount}</p>:<></>}
+        <p>{i}</p>
         
         <h5>Attached File link : <a  href={`https://${ipfsHash}.ipfs.dweb.link/${encodedString}`} download> {Filename}</a><span className='download_btn ' onClick={() => {download(`https://${ipfsHash}.ipfs.dweb.link/${encodedString}`)}}
       style={{cursor:"pointer"}} ><FaDownload size={20} /></span>  </h5>
@@ -57,8 +59,10 @@ const Modalex = ({receiver,subject, body, timestamp, ipfsHash,Filename,sender,i}
        
       
 
-        <div className="modal-footer">
+        <div className="modal-footer" style={{display:"flex", justifyContent:"center"}} >
+          {amount > 0 ? <button type="button" onClick={() => withdraw(i)} className="btn btn-secondary  sentbtn-close " >Claim</button> : null}
           <button type="button" className="btn btn-secondary  sentbtn-close " data-bs-dismiss="modal">Close</button>
+          {/* <button type="button" onClick={() => withdraw()} className="btn btn-secondary  sentbtn-close " >Withdraw</button> */}
 
         </div>
       </div>

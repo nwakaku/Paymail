@@ -4,7 +4,8 @@ require("hardhat-deploy-ethers")
 require("./tasks")
 require("dotenv").config()
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY
+
+const PRIVATE_KEY = "ca84789f252ced5f4c5c4b712183b92b95238a3bc8e44ed393bd2ebf07b5ac2f"
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: "0.8.17",

@@ -3,7 +3,7 @@ pragma solidity >=0.4.16 <0.9.0;
 
 contract EmailService {
     // Event for send email function
-    event Send(address sender,address reciever,string subject,string body,uint256 timestamp, string ipfsHash,string Filename
+    event Send(address sender,address reciever,string subject,string body,uint256 timestamp, string ipfsHash,string Filename, uint _amount
     );
 
     // Event for report spam function
@@ -21,6 +21,7 @@ contract EmailService {
         uint256 timestamp; // current block timestamp as seconds since unix epoch
         string ipfsHash; // CID (Content Identifier) of Attached files
         string Filename;
+        uint amount;
     }
 
     Email[] emails;
@@ -29,17 +30,21 @@ contract EmailService {
     mapping(address => Email[]) public sent;
     mapping(address => address[]) public spam_list;
 
+    mapping(address => uint) public escrow;
+
     
     // Send Email function
-    function sendEmail(address _reciever, string memory subject, string memory body, uint256 timestamp, string memory ipfsHash, string memory Filename) public {
-        require(msg.sender.balance > 0 , "You may not have enough funds.");
-        require(msg.sender != _reciever, "Sender and reciever address cannot be same.");
+    function sendEmail(address _reciever, string memory subject, string memory body, uint256 timestamp, string memory ipfsHash, string memory Filename) payable public {
+        require(msg.sender != _reciever, "Sender and receiver address cannot be same.");
+        require(msg.value > 0, "Amount should be greater than 0.");
 
-        inbox[_reciever].push(Email(msg.sender, _reciever, subject, body, timestamp, ipfsHash,Filename));
-        sent[msg.sender].push(Email(msg.sender, _reciever, subject, body, timestamp, ipfsHash,Filename));
-
-        emit Send(msg.sender, _reciever, subject, body, timestamp, ipfsHash,Filename);
+        inbox[_reciever].push(Email(msg.sender, _reciever, subject, body, timestamp, ipfsHash, Filename, msg.value));
+        sent[msg.sender].push(Email(msg.sender, _reciever, subject, body, timestamp, ipfsHash, Filename, msg.value));
+        escrow[_reciever] += msg.value;
+        emit Send(msg.sender, _reciever, subject, body, timestamp, ipfsHash, Filename, msg.value);
     }
+
+
 
     // Fetch All Emails of the current user who is connected with the smart contract
    function getInboxEmails() public view returns(Email[] memory) {
@@ -75,5 +80,25 @@ contract EmailService {
    function get_Spam_list() public view returns(address[] memory) {
        return spam_list[msg.sender];
    }
+
+   function withdraw(uint emailIndex) public {
+    // uint amount = escrow[msg.sender];
+    // require(amount > 0, "You don't have any funds in escrow.");
+    require(emailIndex < inbox[msg.sender].length, "Email index is out bounds.");
+    Email storage email = inbox[msg.sender][emailIndex];
+    require(email.amount > 0, "There are no funds escrowed for this email.");
+
+    uint amount = email.amount;
+    email.amount = 0;
+    escrow[msg.sender] -= amount;
+
+
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Withdrawal failed.");
+    }
+
+    function getEscrowBalance() public view returns (uint) {
+    return escrow[msg.sender];
+    }
 
 }

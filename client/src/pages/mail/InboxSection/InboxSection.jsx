@@ -6,7 +6,7 @@ import Message from "../Message";
 
 
 const InboxSection = () => {
-    const { connectedAccount, AllMails, SpamEmailAdress, } = useContext(Web3ApiContext);
+    const { connectedAccount, AllMails, SpamEmailAdress, balance, getBalance } = useContext(Web3ApiContext);
 
     if (!connectedAccount) {
       return <div className="loading">
@@ -20,7 +20,7 @@ const InboxSection = () => {
               <h4 className="mt-3 text-inbox">Inbox </h4>
               <div className="msg mt-4">
                {
-               [...AllMails].reverse().map((data, idx) => {
+               [...AllMails].map((data, idx) => {
                   return (SpamEmailAdress.includes(data.sender)) ? <></> : <Message
                     key={idx}
                     sender={data.sender}
@@ -30,6 +30,9 @@ const InboxSection = () => {
                     ipfsHash={data.ipfsHash}
                     Filename={data.Filename}
                     i={idx}
+                    balance = {balance}
+                    getBalance = {getBalance} 
+                    amount = {data.amount}
                   />;
                 })} 
                 

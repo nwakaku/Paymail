@@ -60,8 +60,7 @@ export default function Mail() {
         <div style={{ height: "100vh", background: "white" }} className="row">
           <div className="col-2 sidebar ">
             <h4 className="logo">
-              <img src={logo} alt="logo" className="img" />
-              ail3{" "}
+              PayMail
             </h4>
 
             <h3 className="m-3 mailaccount ">

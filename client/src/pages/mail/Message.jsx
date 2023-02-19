@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import "./Mail.css";
 
 import Modalex from "./Modalex";
+
 
 export default function Message({
   receiver,
@@ -10,8 +12,13 @@ export default function Message({
   ipfsHash,
   Filename,
   sender,
-  i
+  i,
+  getBalance,
+  withdraw,
+  amount
 }) {
+
+
    
   return (
     <>
@@ -29,6 +36,8 @@ export default function Message({
             ipfsHash={ipfsHash}
             Filename={Filename}
             i={i}
+            withdraw ={withdraw} 
+            amount = {amount}
           />
         </div>
       </div>

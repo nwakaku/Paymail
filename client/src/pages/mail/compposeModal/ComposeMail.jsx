@@ -2,10 +2,11 @@ import { useContext } from 'react';
 import {useState} from 'react'
 import { Web3ApiContext } from '../../../context/Web3ApiContext'
 import {main} from "./Web3storageAPi/storageapi"
-
+import { ethers } from "ethers";
 
 const ComposeMail = () => {
-   const {connectedAccount,ComposeMailMain,SentEmails, done}=useContext(Web3ApiContext);
+   const {connectedAccount, ComposeMailMain, SentEmails, done} = useContext(Web3ApiContext);
+
    const [success,Setsuccess]=useState(false);
    
     const[formData,setFormData]=useState(
@@ -13,6 +14,7 @@ const ComposeMail = () => {
     receiver:"",
     body:"",
     subject:"",
+    amount: ""
     }
   );
 
@@ -25,12 +27,13 @@ const ComposeMail = () => {
   }
 
  const SendEmail= async (e)=>{
+  
 try{
   e.preventDefault();
   const ipfs=await main(file);
- await ComposeMailMain(formData.receiver,formData.subject,formData.body,ipfs,file[0].name);
+ await ComposeMailMain(formData.receiver,formData.subject,formData.body,ipfs,file[0].name,formData.amount);
 
- await setFormData({receiver:"",body:"",subject:""});
+ await setFormData({receiver:"",body:"",subject:"", amount:""});
 }catch(err)
 {
   throw new Error(err);
@@ -68,6 +71,9 @@ try{
                      
                       <label htmlFor="formFileMultiple" className="form-label"></label>
                       <input className="form-control" type="file" id="formFileMultiple"  name="file"  onChange={e=>setFile(e.target.files)}/>
+                    </div>
+                    <div className="mb-3">
+                      <input type="text" className="form-control  mail-topic" id="amount" placeholder="amount" name="amount" value={formData.amount} onChange={handleForms} />
                     </div>
                   </div>
 

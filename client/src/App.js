@@ -10,6 +10,41 @@ import { filecoinHyperspace } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { HuddleIframe } from "@huddle01/huddle01-iframe";
 
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
+import { ArcanaConnector } from "@arcana/auth-wagmi";
+import { publicProvider } from "wagmi/providers/public";
+
+export const ArcanaRainbowConnector = ({ chains }) => {
+  return {
+    id: "arcana-auth",
+    name: "Arcana Wallet",
+    iconUrl: "",
+    iconBackground: "#101010",
+    createConnector: () => {
+      const connector = new ArcanaConnector({
+        chains,
+        options: {
+          // appId parameter refers to App Address value in the Dashboard
+          appId: "20B0B836C92D91Ba2059d6Fa76073Ac431A56B64",
+        },
+      });
+      return {
+        connector,
+      };
+    },
+  };
+};
+
+const connectors = (chains) =>
+  connectorsForWallets([
+    {
+      groupName: "Recommended",
+      wallets: [ArcanaRainbowConnector({ chains }), metaMaskWallet({ chains })],
+    },
+  ]);
+
+
 const { chains, provider } = configureChains(
   [filecoinHyperspace],
   [
@@ -22,14 +57,10 @@ const { chains, provider } = configureChains(
   ]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: "Mail3",
-  chains,
-});
 
 const wagmiClient = createClient({
   autoConnect: true,
-  connectors,
+  connectors: connectors(chains),
   provider,
 });
 
