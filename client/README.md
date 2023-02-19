@@ -1,2 +1,2 @@
-# Mail3
+# PayMail
 

@@ -2,7 +2,7 @@ import "./Home.css";
 import { useContext } from "react";
 import { Link } from "react-router-dom"
 import {Web3ApiContext} from "../../context/Web3ApiContext";
-import logo from '../../images/3mail.png'
+import logo from '../../images/paymail.png'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
